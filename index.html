@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Choose Your Adventure 💌</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #ffe6f0;
+      padding: 40px;
+    }
+    button {
+      padding: 12px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    #gameBox {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      display: inline-block;
+      max-width: 500px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="gameBox">
+  <h2 id="text">Welcome to the Mini Choice Game 🎮</h2>
+  <p id="points">Points: 0</p>
+  <button onclick="choiceA()">Start</button>
+  <button onclick="choiceB()">Start (but dramatic)</button>
+</div>
+
+<script>
+let score = 0;
+let step = 0;
+
+function updatePoints() {
+  document.getElementById("points").innerText = "Points: " + score;
+}
+
+function setScene(message, aText, bText) {
+  document.getElementById("text").innerText = message;
+  const buttons = document.querySelectorAll("button");
+  buttons[0].innerText = aText;
+  buttons[1].innerText = bText;
+}
+
+function choiceA() {
+  nextStep("A");
+}
+
+function choiceB() {
+  nextStep("B");
+}
+
+function nextStep(choice) {
+  step++;
+
+  if (step === 1) {
+    score += (choice === "A") ? 5 : 3;
+    setScene(
+      "You found snacks 🍫 What do you take?",
+      "Chocolate (+5)",
+      "Chips (+3)"
+    );
+
+  } else if (step === 2) {
+    score += (choice === "A") ? 5 : 4;
+    setScene(
+      "Pick a power-up:",
+      "Extra Luck (+5)",
+      "Extra Charm (+4)"
+    );
+
+  } else if (step === 3) {
+    score += (choice === "A") ? 5 : 2;
+    setScene(
+      "Final level unlocked 💖",
+      "Open the mystery box",
+      "Open it carefully"
+    );
+
+  } else if (step === 4) {
+    // Valentine question
+    document.getElementById("text").innerText =
+      "You collected " + score + " points 💎\n\nWill you be my Valentine?";
+    
+    const buttons = document.querySelectorAll("button");
+    buttons[0].innerText = "YES 💕";
+    buttons[1].innerText = "No (I still appreciate you)";
+    
+    buttons[0].onclick = yesEnding;
+    buttons[1].onclick = noEnding;
+    return;
+  }
+
+  updatePoints();
+}
+
+function yesEnding() {
+  document.getElementById("gameBox").innerHTML =
+    "<h2>🎉 YES UNLOCKED 🎉</h2><p>Best ending achieved. Date DLC unlocked.</p>";
+}
+
+function noEnding() {
+  document.getElementById("gameBox").innerHTML =
+    "<h2>💛 Respect Ending</h2><p>You are still awesome. Thanks for playing.</p>";
+}
+</script>
+
+</body>
+</html>
